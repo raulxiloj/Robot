@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -167,7 +168,7 @@ public class ActivityRutas extends AppCompatActivity {
     Button botonLimpiar;
     EditText textoNombreRuta;
     EditText numeroTiempo;
-
+    CheckBox barriendo;
     public void mensajito(String mensaje) {
         Toast toast1 = Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT);
         toast1.setGravity(Gravity.BOTTOM, 0, 0);
@@ -229,6 +230,7 @@ public class ActivityRutas extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, datosLista);
         lst.setAdapter(adapterLista);
 
+        barriendo = (CheckBox) findViewById(R.id.checkBox);
         botonAgregar = (Button) findViewById(R.id.button137);
         botonAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,22 +239,28 @@ public class ActivityRutas extends AppCompatActivity {
                 * Como los controles de jugar en el teclado de la compu
                 * Validar tiempo > 0
                 * */
+                int b = 0;
+                String b2 = "";
+                if(barriendo.isChecked()){
+                    b = 1;
+                    b2 = ", Barriendo";
+                }
                 if(!numeroTiempo.getText().equals("")){
                     switch (sp.getSelectedItem().toString()){
                         case "Izquierda":
-                            cadenaRuta.add("a" + numeroTiempo.getText() + ",");
+                            cadenaRuta.add("a" + numeroTiempo.getText() + b + ",");
                             break;
                         case "Adelante":
-                            cadenaRuta.add("w" + numeroTiempo.getText() + ",");
+                            cadenaRuta.add("w" + numeroTiempo.getText() + b + ",");
                             break;
                         case "Atras":
-                            cadenaRuta.add("s" + numeroTiempo.getText() + ",");
+                            cadenaRuta.add("s" + numeroTiempo.getText() + b + ",");
                             break;
                         case "Derecha":
-                            cadenaRuta.add("d" + numeroTiempo.getText() + ",");
+                            cadenaRuta.add("d" + numeroTiempo.getText() + b + ",");
                             break;
                     }
-                    datosLista.add((datosLista.size()+1) + "- " + sp.getSelectedItem().toString() + ", " + numeroTiempo.getText() + "s");
+                    datosLista.add((datosLista.size()+1) + "- " + sp.getSelectedItem().toString() + ", " + numeroTiempo.getText() + "s" + b2);
                     lst.setAdapter(adapterLista);
                     numeroTiempo.setText("");
                 }else {
@@ -266,19 +274,20 @@ public class ActivityRutas extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                if(!textoNombreRuta.getText().equals("")){
-                   String tmpCadenaEnviar = textoNombreRuta.getText().toString() + "#";
-
-                   for(String st : cadenaRuta){
-                       tmpCadenaEnviar = tmpCadenaEnviar + st;
+                   if(textoNombreRuta.getText().length() <=5){
+                       String tmpCadenaEnviar = textoNombreRuta.getText().toString() + "#";
+                       for(String st : cadenaRuta){
+                           tmpCadenaEnviar = tmpCadenaEnviar + st;
+                       }
+                       tmpCadenaEnviar = tmpCadenaEnviar + "#";
+                       MyConexionBT.write(tmpCadenaEnviar);
+                       datosLista.clear();
+                       lst.setAdapter(adapterLista);
+                       textoNombreRuta.setText("");
+                       mensajito("Ruta creada");
+                   }else{
+                       mensajito("El maximo de caracteres para el nombre es 5");
                    }
-                   tmpCadenaEnviar = tmpCadenaEnviar + "#";
-
-                   MyConexionBT.write(tmpCadenaEnviar);
-                   datosLista.clear();
-                   lst.setAdapter(adapterLista);
-                   textoNombreRuta.setText("");
-                   mensajito("Ruta creada");
-
                }else{
                    mensajito("Debe ingresar un nombre para la ruta");
                }

@@ -57,6 +57,18 @@
             android:layout_height="wrap_content" />
 
         <TextView
+            android:id="@+id/textView52"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Práctica 3"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+
+        <TextView
+            android:id="@+id/textView57"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
             android:id="@+id/textView48"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,21 +86,15 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView52"
-                android:layout_width="47dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <TextView
                 android:id="@+id/textView50"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Javier Alvarez" />
 
             <TextView
                 android:id="@+id/textView51"
-                android:layout_width="141dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="201612383" />
@@ -110,22 +116,16 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView520"
-                    android:layout_width="47dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <TextView
                     android:id="@+id/textView503"
-                    android:layout_width="107dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Ricardo Dubon" />
 
                 <TextView
                     android:id="@+id/textView514"
-                    android:layout_width="141dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="201612131" />
             </LinearLayout>
@@ -146,21 +146,15 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView528"
-                        android:layout_width="47dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
-
-                    <TextView
                         android:id="@+id/textView505"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Raul Xiloj" />
 
                     <TextView
                         android:id="@+id/textView517"
-                        android:layout_width="141dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="201612113" />
@@ -182,21 +176,15 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView400"
-                            android:layout_width="43dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <TextView
                             android:id="@+id/textView401"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Melyza Rodriguez" />
 
                         <TextView
                             android:id="@+id/textView402"
-                            android:layout_width="141dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="201314821" />
@@ -212,26 +200,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/textView59"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/textView58"
-                            android:layout_width="109dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Practica No.3"
-                            android:textSize="24sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/textView57"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
