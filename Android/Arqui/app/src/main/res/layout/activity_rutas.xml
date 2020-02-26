@@ -133,8 +133,7 @@
         <TextView
             android:id="@+id/textView59"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="wrap_content" />
 
         <ListView
             android:id="@+id/listview"
@@ -229,6 +228,17 @@
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             android:text="Limpiar" />
+
+        <TextView
+            android:id="@+id/textView78"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/button140"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Regresar" />
 
     </LinearLayout>
 

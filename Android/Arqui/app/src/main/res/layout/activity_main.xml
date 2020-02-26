@@ -98,11 +98,10 @@
                 android:id="@+id/editText"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:digits="ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz1234567890 "
                 android:layout_weight="1"
+                android:digits="ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz1234567890 "
                 android:ems="10"
-                android:inputType="textPersonName"
-                android:maxLength="20" />
+                android:inputType="textPersonName" />
 
             <Button
                 android:id="@+id/button"

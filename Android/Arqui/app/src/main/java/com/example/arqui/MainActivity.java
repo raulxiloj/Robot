@@ -240,6 +240,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MyConexionBT.write("p");
+                mensajito("Parar");
             }
         });
 
@@ -248,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
         botonAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!nombreEnviar.getText().equals("")){
+                if(nombreEnviar.getText().length() > 0){
                     if(nombreEnviar.getText().length() <= 5){
                         String textoCompleto = nombreEnviar.getText().toString();
                         if(textoCompleto.length() < 5){
@@ -284,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (textoEnviado.getText().length() <= 20) {
                     if (textoEnviado.getText().length() > 0) {
-                        String enviarTxt = "$" + textoEnviado.getText().toString() + "$";
+                        String enviarTxt = textoEnviado.getText().toString();
                         MyConexionBT.write(enviarTxt);
                         mensajito("Texto enviado");
                         textoEnviado.setText("");
@@ -378,6 +379,7 @@ public class MainActivity extends AppCompatActivity {
         botonRutas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MyConexionBT.write("r");
                 Intent intent = new Intent(MainActivity.this, ActivityRutas.class);
                 intent.putExtra("EXTRA_DEVICE_ADDRESS", address);
                 intent.putExtra("EXTRA_DEVICE_NOMBRE", verDisp.getText().toString());
