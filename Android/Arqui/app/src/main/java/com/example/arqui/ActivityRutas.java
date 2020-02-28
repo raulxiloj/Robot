@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -167,7 +168,8 @@ public class ActivityRutas extends AppCompatActivity {
     Button botonLimpiar;
     EditText textoNombreRuta;
     EditText numeroTiempo;
-
+    CheckBox barriendo;
+    Button botonRegresar;
     public void mensajito(String mensaje) {
         Toast toast1 = Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT);
         toast1.setGravity(Gravity.BOTTOM, 0, 0);
@@ -229,6 +231,7 @@ public class ActivityRutas extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, datosLista);
         lst.setAdapter(adapterLista);
 
+        barriendo = (CheckBox) findViewById(R.id.checkBox);
         botonAgregar = (Button) findViewById(R.id.button137);
         botonAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,26 +240,32 @@ public class ActivityRutas extends AppCompatActivity {
                 * Como los controles de jugar en el teclado de la compu
                 * Validar tiempo > 0
                 * */
-                if(!numeroTiempo.getText().equals("")){
+                int b = 0;
+                String b2 = "";
+                if(barriendo.isChecked()){
+                    b = 1;
+                    b2 = ", Barriendo";
+                }
+                if(numeroTiempo.getText().length() > 0){
                     switch (sp.getSelectedItem().toString()){
                         case "Izquierda":
-                            cadenaRuta.add("a" + numeroTiempo.getText() + ",");
+                            cadenaRuta.add("a," + numeroTiempo.getText() + "," + b + ",");
                             break;
                         case "Adelante":
-                            cadenaRuta.add("w" + numeroTiempo.getText() + ",");
+                            cadenaRuta.add("w," + numeroTiempo.getText() + ","+ b + ",");
                             break;
                         case "Atras":
-                            cadenaRuta.add("s" + numeroTiempo.getText() + ",");
+                            cadenaRuta.add("s," + numeroTiempo.getText() + "," + b + ",");
                             break;
                         case "Derecha":
-                            cadenaRuta.add("d" + numeroTiempo.getText() + ",");
+                            cadenaRuta.add("d," + numeroTiempo.getText() + "," + b + ",");
                             break;
                     }
-                    datosLista.add((datosLista.size()+1) + "- " + sp.getSelectedItem().toString() + ", " + numeroTiempo.getText() + "s");
+                    datosLista.add((datosLista.size()+1) + "- " + sp.getSelectedItem().toString() + ", " + numeroTiempo.getText() + "s" + b2);
                     lst.setAdapter(adapterLista);
                     numeroTiempo.setText("");
                 }else {
-                    mensajito("Debe ingresar un tiempo para el movimiento");
+                    mensajito("Debe ingresar un tiempo válido para el movimiento");
                 }
             }
         });
@@ -265,20 +274,42 @@ public class ActivityRutas extends AppCompatActivity {
         botonCrear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if(!textoNombreRuta.getText().equals("")){
-                   String tmpCadenaEnviar = textoNombreRuta.getText().toString() + "#";
-
-                   for(String st : cadenaRuta){
-                       tmpCadenaEnviar = tmpCadenaEnviar + st;
+               if(textoNombreRuta.getText().length() > 0){
+                   if(textoNombreRuta.getText().length() <=5){
+                       if(cadenaRuta.size() >= 3){
+                           if(cadenaRuta.size() <= 8){
+                               /*
+                                * Completando la cadena
+                                * */
+                               String textoCompleto = textoNombreRuta.getText().toString();
+                               if(textoCompleto.length() < 5){
+                                   int espacios = 5 - textoCompleto.length();
+                                   for(int i = 0; i < espacios; i++){
+                                       textoCompleto = textoCompleto + " ";
+                                   }
+                               }
+                               String tmpCadenaEnviar = textoCompleto + "#";
+                               /*
+                                * Fin de completando la cadena
+                                * */
+                               for(String st : cadenaRuta){
+                                   tmpCadenaEnviar = tmpCadenaEnviar + st;
+                               }
+                               MyConexionBT.write(tmpCadenaEnviar);
+                               datosLista.clear();
+                               lst.setAdapter(adapterLista);
+                               cadenaRuta.clear();
+                               textoNombreRuta.setText("");
+                               mensajito("Ruta creada");
+                           }else{
+                               mensajito("Solo se permite ingresar un maximo de 8 movimientos");
+                           }
+                       }else{
+                           mensajito("Se debe ingresar al menos 3 movimientos");
+                       }
+                   }else{
+                       mensajito("El maximo de caracteres para el nombre es 5");
                    }
-                   tmpCadenaEnviar = tmpCadenaEnviar + "#";
-
-                   MyConexionBT.write(tmpCadenaEnviar);
-                   datosLista.clear();
-                   lst.setAdapter(adapterLista);
-                   textoNombreRuta.setText("");
-                   mensajito("Ruta creada");
-
                }else{
                    mensajito("Debe ingresar un nombre para la ruta");
                }
@@ -317,6 +348,16 @@ public class ActivityRutas extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MyConexionBT.write("l");
+            }
+        });
+        botonRegresar = (Button) findViewById(R.id.button140);
+        botonRegresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityRutas.this, MainActivity.class);
+                intent.putExtra("EXTRA_DEVICE_ADDRESS", address);
+                intent.putExtra("EXTRA_DEVICE_NOMBRE", "Grupo10A");
+                startActivity(intent);
             }
         });
     }

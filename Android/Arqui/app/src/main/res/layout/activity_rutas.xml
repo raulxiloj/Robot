@@ -15,8 +15,8 @@
     tools:context=".ActivityRutas">
 
     <LinearLayout
-        android:layout_width="336dp"
-        android:layout_height="637dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="-1dp"
         tools:layout_editor_absoluteY="2dp">
@@ -70,7 +70,7 @@
             android:id="@+id/textView20"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dirección y tiempo" />
+            android:text="Movimiento" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,7 +84,7 @@
 
                 <Spinner
                     android:id="@+id/spinner2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="119dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
 
@@ -96,18 +96,42 @@
                     android:ems="10"
                     android:inputType="number" />
 
-                <Button
-                    android:id="@+id/button137"
-                    android:layout_width="36dp"
+                <CheckBox
+                    android:id="@+id/checkBox"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Agregar" />
+                    android:text="Barrer" />
+
             </LinearLayout>
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/textView77"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/button137"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Agregar" />
+
+        <TextView
             android:id="@+id/textView60"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textView58"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Listado de movimientos" />
+
+        <TextView
+            android:id="@+id/textView59"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -204,6 +228,17 @@
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             android:text="Limpiar" />
+
+        <TextView
+            android:id="@+id/textView78"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/button140"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Regresar" />
 
     </LinearLayout>
 

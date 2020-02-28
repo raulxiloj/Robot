@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     TextView verDisp;
-
+    Button botonParar;
+    Button botonAceptar;
     Button botonEnviar;
 
     TextView textoEnviado;
@@ -76,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
 
     Button botonBarrer;
     Button botonRutas;
+
+
+    EditText nombreEnviar;
     public void mensajito(String mensaje) {
         Toast toast1 = Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT);
         toast1.setGravity(Gravity.BOTTOM, 0, 0);
@@ -230,6 +235,43 @@ public class MainActivity extends AppCompatActivity {
 
         //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+        botonParar = (Button) findViewById(R.id.button88);
+        botonParar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyConexionBT.write("p");
+                mensajito("Parar");
+            }
+        });
+
+        nombreEnviar = (EditText) findViewById(R.id.editText4);
+        botonAceptar = (Button) findViewById(R.id.button71);
+        botonAceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(nombreEnviar.getText().length() > 0){
+                    if(nombreEnviar.getText().length() <= 5){
+                        String textoCompleto = nombreEnviar.getText().toString();
+                        if(textoCompleto.length() < 5){
+                            int espacios = 5 - textoCompleto.length();
+                            for(int i = 0; i < espacios; i++){
+                                textoCompleto = textoCompleto + " ";
+                            }
+                        }
+                        //mensajito(textoCompleto);
+                        MyConexionBT.write("g");
+                        MyConexionBT.write(textoCompleto);
+                        //esperar confirmacion
+                        nombreEnviar.setText("");
+                        mensajito("Ruta guardada");
+                    }else{
+                        mensajito("El máximo de caracteres para el nombre es 5");
+                    }
+                }else{
+                    mensajito("Debe ingresar un nombre para la ruta");
+                }
+            }
+        });
 
         botonDesconectar = (Button) findViewById(R.id.button70);
         botonBarrer = (Button) findViewById(R.id.button3);
@@ -243,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (textoEnviado.getText().length() <= 20) {
                     if (textoEnviado.getText().length() > 0) {
-                        String enviarTxt = "$" + textoEnviado.getText().toString() + "$";
+                        String enviarTxt = textoEnviado.getText().toString();
                         MyConexionBT.write(enviarTxt);
                         mensajito("Texto enviado");
                         textoEnviado.setText("");
@@ -318,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
                         ;
                     }
                 }
-                mensajito("Desconectado0");
+                mensajito("Desconectado");
                 finish();
                 Intent intent = new Intent(MainActivity.this, Portada.class);
                 startActivity(intent);
@@ -337,11 +379,11 @@ public class MainActivity extends AppCompatActivity {
         botonRutas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                MyConexionBT.write("r");
                 Intent intent = new Intent(MainActivity.this, ActivityRutas.class);
                 intent.putExtra("EXTRA_DEVICE_ADDRESS", address);
                 intent.putExtra("EXTRA_DEVICE_NOMBRE", verDisp.getText().toString());
                 startActivity(intent);
-                mensajito("Se irá a rutas");
             }
         });
 
