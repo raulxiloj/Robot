@@ -14,9 +14,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.bluetooth.BluetoothAdapter;
@@ -35,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -61,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    public  ArrayAdapter<String> adapterRutas;
 
+Button botonVer;
     TextView verDisp;
     Button botonParar;
     Button botonAceptar;
@@ -77,10 +84,28 @@ public class MainActivity extends AppCompatActivity {
     Button botonDesconectar;
 
     Button botonBarrer;
-    Button botonRutas;
 
+    EditText numeroTiempo;
+    CheckBox barriendo;
+    Spinner sp;
+    ListView lst;
+    Button botonAgregar;
+    Button botonCrear;
 
+    Button botonLimpiar;
     EditText nombreEnviar;
+    public ArrayList<String> listaRutas = new ArrayList<String>();
+    public String varConcat = "";
+    Button botonActualizar;
+    Spinner spRutas;
+
+    public void act(){
+        adapterRutas= new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, listaRutas);
+        spRutas.setAdapter(adapterRutas);
+        Button botonLimpiar;
+
+    }
     public void mensajito(String mensaje) {
         Toast toast1 = Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT);
         toast1.setGravity(Gravity.BOTTOM, 0, 0);
@@ -220,9 +245,15 @@ public class MainActivity extends AppCompatActivity {
                     DataStringIN.append(readMessage);
 
                     int endOfLineIndex = DataStringIN.indexOf("#");
-
+                    listaRutas.clear();
                     if (endOfLineIndex > 0) {
                         String dataInPrint = DataStringIN.substring(0, endOfLineIndex);
+                        mensajito(dataInPrint);
+                        String [] vector = dataInPrint.split(",");
+                       for(int i = 0; i < vector.length; i++){
+                           listaRutas.add(vector[i]);
+                       }
+                       act();
                         //IdBufferIn.setText("Dato: " + dataInPrint);//<-<- PARTE A MODIFICAR >->->
                         DataStringIN.delete(0, DataStringIN.length());
                     }
@@ -234,6 +265,141 @@ public class MainActivity extends AppCompatActivity {
         VerificarEstadoBT();
 
         //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+        botonActualizar = (Button) findViewById(R.id.button145);
+        botonActualizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyConexionBT.write("r");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                MyConexionBT.write("u");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                MyConexionBT.write("r");
+            }
+        });
+
+
+        lst = (ListView) findViewById(R.id.lstVerM);
+        final ArrayList<String> cadenaRuta = new ArrayList<String>();
+        final ArrayList<String> datosLista = new ArrayList<String>();
+        final ArrayAdapter<String> adapterLista = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, datosLista);
+        lst.setAdapter(adapterLista);
+
+        numeroTiempo = (EditText) findViewById(R.id.editText6);
+
+        sp = (Spinner) findViewById(R.id.spinner3);
+        final String[] datos = new String[] {"Izquierda", "Derecha", "Adelante", "Atras"};
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, datos);
+        sp.setAdapter(adapter);
+
+
+        barriendo = (CheckBox) findViewById(R.id.checkBox3);
+        botonAgregar = (Button) findViewById(R.id.button141);
+
+        botonAgregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                 * Como los controles de jugar en el teclado de la compu
+                 * Validar tiempo > 0
+                 * */
+                int b = 0;
+                String b2 = "";
+                if(barriendo.isChecked()){
+                    b = 1;
+                    b2 = ", Barriendo";
+                }
+                if(numeroTiempo.getText().length() > 0){
+                    switch (sp.getSelectedItem().toString()){
+                        case "Izquierda":
+                            cadenaRuta.add("a," + numeroTiempo.getText() + "," + b + ",");
+                            break;
+                        case "Adelante":
+                            cadenaRuta.add("w," + numeroTiempo.getText() + ","+ b + ",");
+                            break;
+                        case "Atras":
+                            cadenaRuta.add("s," + numeroTiempo.getText() + "," + b + ",");
+                            break;
+                        case "Derecha":
+                            cadenaRuta.add("d," + numeroTiempo.getText() + "," + b + ",");
+                            break;
+                    }
+                    datosLista.add((datosLista.size()+1) + "- " + sp.getSelectedItem().toString() + ", " + numeroTiempo.getText() + "s" + b2);
+                    lst.setAdapter(adapterLista);
+                    numeroTiempo.setText("");
+                }else {
+                    mensajito("Debe ingresar un tiempo válido para el movimiento");
+                }
+            }
+        });
+        botonCrear = (Button) findViewById(R.id.button148);
+        botonCrear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(nombreEnviar.getText().length() > 0){
+                    if(nombreEnviar.getText().length() <=5){
+                        if(cadenaRuta.size() >= 3){
+                            if(cadenaRuta.size() <= 8){
+                                /*
+                                 * Completando la cadena
+                                 * */
+                                String textoCompleto = nombreEnviar.getText().toString();
+                                if(textoCompleto.length() < 5){
+                                    int espacios = 5 - textoCompleto.length();
+                                    for(int i = 0; i < espacios; i++){
+                                        textoCompleto = textoCompleto + " ";
+                                    }
+                                }
+                                String tmpCadenaEnviar = textoCompleto + "#";
+                                /*
+                                 * Fin de completando la cadena
+                                 * */
+                                for(String st : cadenaRuta){
+                                    tmpCadenaEnviar = tmpCadenaEnviar + st;
+                                }
+                                MyConexionBT.write("r");
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                MyConexionBT.write(tmpCadenaEnviar);
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                MyConexionBT.write("r");
+
+                                datosLista.clear();
+                                lst.setAdapter(adapterLista);
+                                cadenaRuta.clear();
+                                nombreEnviar.setText("");
+                                mensajito("Ruta creada");
+                            }else{
+                                mensajito("Solo se permite ingresar un maximo de 8 movimientos");
+                            }
+                        }else{
+                            mensajito("Se debe ingresar al menos 3 movimientos");
+                        }
+                    }else{
+                        mensajito("El maximo de caracteres para el nombre es 5");
+                    }
+                }else{
+                    mensajito("Debe ingresar un nombre para la ruta");
+                }
+            }
+        });
 
         botonParar = (Button) findViewById(R.id.button88);
         botonParar.setOnClickListener(new View.OnClickListener() {
@@ -275,7 +441,6 @@ public class MainActivity extends AppCompatActivity {
 
         botonDesconectar = (Button) findViewById(R.id.button70);
         botonBarrer = (Button) findViewById(R.id.button3);
-        botonRutas = (Button) findViewById(R.id.button21);
 
         botonEnviar = (Button) findViewById(R.id.button);
         textoEnviado = (TextView) findViewById(R.id.editText);
@@ -376,16 +541,52 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        botonRutas.setOnClickListener(new View.OnClickListener() {
+
+        botonLimpiar = (Button) findViewById(R.id.button149);
+        botonLimpiar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MyConexionBT.write("r");
-                Intent intent = new Intent(MainActivity.this, ActivityRutas.class);
-                intent.putExtra("EXTRA_DEVICE_ADDRESS", address);
-                intent.putExtra("EXTRA_DEVICE_NOMBRE", verDisp.getText().toString());
-                startActivity(intent);
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                MyConexionBT.write("c");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                MyConexionBT.write("r");
             }
         });
+
+
+        botonVer = (Button) findViewById(R.id.button150);
+        botonVer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyConexionBT.write("r");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                mensajito("Ruta seleccionada "+ spRutas.getSelectedItem().toString());
+                MyConexionBT.write("v"+ spRutas.getSelectedItem().toString());
+
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                MyConexionBT.write("r");
+            }
+        });
+
+        spRutas = (Spinner) findViewById(R.id.spinner4);
 
     }
 }
