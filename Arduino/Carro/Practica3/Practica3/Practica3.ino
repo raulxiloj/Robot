@@ -358,25 +358,29 @@ void executeInstructions(Ruta ruta) {
         Serial.println("izquierda");
         carro.turnLeft();
         carro.setBrush(ruta.moves[i][2]);
-        delay(ruta.moves[i][1]);
+        delay(ruta.moves[i][1]*1000);
+        carro.stop();
       break;
       case 115:
         Serial.println("atras");
         carro.reverse();
         carro.setBrush(ruta.moves[i][2]);
-        delay(ruta.moves[i][1]);
+        delay(ruta.moves[i][1]*1000);
+        carro.stop();
       break;
       case 100:
         Serial.println("derecha");
         carro.turnRight();
         carro.setBrush(ruta.moves[i][2]);
-        delay(ruta.moves[i][1]);
+        delay(ruta.moves[i][1]*1000);
+        carro.stop();
       break;
       case 119:
         Serial.println("adelante");
         carro.foward();
         carro.setBrush(ruta.moves[i][2]);
-        delay(ruta.moves[i][1]);
+        delay(ruta.moves[i][1]*1000);
+        carro.stop();
       break;
       default:
         Serial.println("Default del executeInstructions");
