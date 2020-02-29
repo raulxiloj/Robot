@@ -40,8 +40,8 @@ private:
 	static const int LEFT_DISTANCE = 730;
 	static const int RIGHT_DISTANCE = 650;
 
-	static const int TURNING_LEFT_TIME = 400;
-	static const int TURNING_RIGHT_TIME = 400;
+	static const int TURNING_LEFT_TIME = 300;
+	static const int TURNING_RIGHT_TIME = 300;
 	static const int MOVING_REVERSE_TIME = 800;//deberia ser tiempo suficiente para que se mueva la longitud del carro hacia atras
 
 	bool wasPressed = false;
@@ -82,4 +82,3 @@ public:
 
 
 #endif
-

@@ -9,7 +9,7 @@ using namespace Engine::State;
 
 //Tienen que ser menos de la mitad de la potencia maxima para que las podamos multiplicar facilmente en turnLeft y turnRight
 // [!!!] CUIDADO SI NO SON MENOS DE LA MITAD PUEDE DAR OVERFLOW!!!!!!!!!!!!!!!!!!!!!!!!!!
-extern byte Engine::leftPower = 145;//para debugging vamos a usar menos potencia
+extern byte Engine::leftPower = 185;//para debugging vamos a usar menos potencia
 extern byte Engine::rightPower = 145;
 
 namespace {
@@ -46,7 +46,7 @@ void Engine::turnLeft()
 	digitalWrite(MOTOR_IZQ1, LOW);
 	analogWrite(MOTOR_IZQ2, 0xff/*leftPower * 2*/);
 
-	digitalWrite(MOTOR_DER1, LOW);
+	digitalWrite(MOTOR_DER1, 0xff - 63);
 	digitalWrite(MOTOR_DER2, LOW);
 }
 
@@ -54,11 +54,11 @@ void Engine::turnRight()
 {
 	currState = TURING_RIGHT;
 
-	digitalWrite(MOTOR_IZQ1, LOW);
+	digitalWrite(MOTOR_IZQ1, 0xff);
 	digitalWrite(MOTOR_IZQ2, LOW);
 
 	digitalWrite(MOTOR_DER1, LOW);
-	analogWrite(MOTOR_DER2, 0xff/*rightPower * 2*/);
+	analogWrite(MOTOR_DER2, 0xff - 63/*rightPower * 2*/);
 }
 
 void Engine::foward()
