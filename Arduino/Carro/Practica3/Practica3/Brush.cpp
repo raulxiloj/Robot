@@ -18,7 +18,6 @@ void Brush::start()
 
 void Brush::stop()
 {
+  //Serial.println("brush apagado");
 	digitalWrite(MOTOR_CONTROL_PIN, LOW);
 }
-
-
