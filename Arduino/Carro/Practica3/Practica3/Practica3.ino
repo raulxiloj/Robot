@@ -346,7 +346,7 @@ void executeRuta(String rutaName) {
 
 void executeInstructions(Ruta ruta) {
   
-  for (int i = 7; i >= 0; i--) {
+  for (int i = 0; i < 7; i++) {
     Serial.print("movimiento " );
     Serial.println(ruta.moves[i][0]);
     switch (ruta.moves[i][0]) {
